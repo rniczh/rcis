@@ -1,0 +1,112 @@
+(library (compiler options)
+  (export
+    ;; options get/set function
+    foreign-files
+    output-file
+    runtime-files
+    gcc-optimize-level
+    load-test-suite
+    scheme-optimize-level
+    scheme-debug
+    intermediate-mode
+    assembly-mode
+    )
+  (import
+    (chezscheme)
+    (compiler setting))
+
+  (define runtime-files
+    (make-parameter "__PWD__"
+      (lambda (pos)
+        (fold-right
+          (lambda (x ls)
+            (string-append pos x " " ls))
+          ""
+          '("/runtime/runtime.c"
+            "/runtime/copygc.c"
+            "/runtime/printer.c"
+            "/runtime/std_lib.c"
+            )))))
+
+  (define output-file
+    (make-parameter "t"))
+
+  (define foreign-files
+    (make-parameter '()
+      (lambda (pos)
+        (fold-right
+          (lambda (x ls)
+            (string-append x " " ls))
+          ""
+          pos))))
+
+  (define scheme-debug
+    (make-parameter ""
+      (let ([ls '()])
+        (lambda (x)
+          (set! ls (cons x ls))
+          ls))))
+
+  (define intermediate-mode
+    (make-parameter #f
+      (lambda (x)
+        (if (not (eq? x #f))
+            (*intermediate-output* x))
+        x)))
+
+  (define assembly-mode
+    (make-parameter #f
+      (lambda (x)
+        (if (not (eq? x #f))
+            (*assembly-output* x))
+        x)))
+
+  (define scheme-optimize-level
+    (make-parameter "1"
+      (lambda (level)
+        (case level
+          [("0")
+           (begin
+             (*enable-optimize-jumps* #f)
+             (*enable-optimize-direct-call* #f)
+             (*enable-optimize-nops* #f)
+             (*enable-optimize-closures* #f)
+             (*enable-optimize-fold-constants* #f)
+             (*enable-optimize-deadcode* #f)
+             (*enable-gc* #t))]
+          [("1")
+           (begin
+             (*enable-optimize-jumps* #t)
+             (*enable-optimize-direct-call* #t)
+             (*enable-optimize-nops* #t)
+             (*enable-optimize-closures* #t)
+             (*enable-optimize-fold-constants* #t)
+             (*enable-optimize-deadcode* #t)
+             (*enable-gc* #t))]
+           [("2")
+           (begin
+             (*enable-optimize-jumps* #t)
+             (*enable-optimize-direct-call* #t)
+             (*enable-optimize-nops* #t)
+             (*enable-optimize-closures* #t)
+             (*enable-optimize-fold-constants* #t)
+             (*enable-optimize-deadcode* #t)
+             (*enable-gc* #f))]
+          [else (errorf 'scheme-optimize-level "invaild optimize level ~a" level)])
+        level)))
+
+  (define gcc-optimize-level
+    (make-parameter "0"
+      (lambda (level)
+        (case level
+          [("0" "1" "2" "3" "s" "fast" "g") level]
+          [else (errorf 'gcc-optimize-level "invaild optimize level ~a" level)]))))
+
+  (define load-test-suite
+    (make-parameter "__PWD__/test-suite.ss"
+      (lambda (suite)
+        (if (file-exists? suite)
+            suite
+            (errorf 'load-test-suite "test file not exist ~a" suite)))))
+
+  ) ;; END Library

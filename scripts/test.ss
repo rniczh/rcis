@@ -1,0 +1,6 @@
+(compile-imported-libraries #t)
+(optimize-level 2)
+(import (framework testing))
+(output-file "build/t")
+(scheme-debug "-D COMPILER_TEST")
+(load-test-suite "test-suite.ss")
