@@ -25,9 +25,6 @@
     (compiler backend)
     (compiler options))
 
-
-  (define (tassemble thunk)
-    #t)
   (define (assemble thunk)
     (with-output-to-file (string-append (output-file) ".s")
       thunk
@@ -44,7 +41,10 @@
                            (runtime-files)
                            (foreign-files)
                            ))
-                 (system (format "rm ~a.s" (output-file))))
+                 (unless (equal?
+                           (string-append (output-file) ".s")
+                           (assembly-mode))
+                   (system (format "rm ~a.s" (output-file)))))
       (error 'assemble "assembly failed")))
 
   ;; (driver driver-step (pass->wrapper)) /
