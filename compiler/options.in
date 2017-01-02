@@ -83,15 +83,6 @@
              (*enable-optimize-fold-constants* #t)
              (*enable-optimize-deadcode* #t)
              (*enable-gc* #t))]
-           [("2")
-           (begin
-             (*enable-optimize-jumps* #t)
-             (*enable-optimize-direct-call* #t)
-             (*enable-optimize-nops* #t)
-             (*enable-optimize-closures* #t)
-             (*enable-optimize-fold-constants* #t)
-             (*enable-optimize-deadcode* #t)
-             (*enable-gc* #f))]
           [else (errorf 'scheme-optimize-level "invaild optimize level ~a" level)])
         level)))
 
