@@ -43,20 +43,17 @@ Syntax
 Install
 ========
 
-Dependent:
-    * Linux
-    * GNU Make
-    * GCC (version >= 5)
-    * ChezScheme
+Dependencies:
 
-just type:
+`Linux`, `GNU Make`, `GCC(version>=5)`, `ChezScheme`
+
 ```shell
-make
+$ make
 ```
 if failed on using the protable ChezScheme,
 you need to install the [ChezScheme](https://github.com/cisco/ChezScheme) and type
 ```shell
-make install
+$ make install
 ```
 If success it will display:
 ```shell
@@ -65,9 +62,7 @@ If success it will display:
 * produce executable...ok
 Executable at boot/rcis
 ```
-
 and rcis will be compiled into boot directory.
-
 
 Usage
 ========
@@ -75,14 +70,15 @@ Usage
 alias the rcis in your .bashrc or .zshrc ... etc
 
 - Compile with C: (in example directory)
+rule: `-o <output> <scheme-file> <c-files>*`
 ```shell
-rcis -o prog change.ss change.c
-./prog
+$ rcis -o prog change.ss change.c
+$ ./prog
 ```
 
 - Get more information
 ```shell
-rcis --help
+$ rcis --help
 ```
 
 Test
@@ -90,12 +86,12 @@ Test
 
 - Check file can be compiled
 ```
-make test-all
+$ make test-all
 ```
 
 - Compare the rcis result with chezscheme result
 ```
-make test-driver
+$ make test-driver
 ```
 
 Acknowledgements
