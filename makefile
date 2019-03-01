@@ -3,7 +3,7 @@ Scheme = boot/rcis
 Ver = a6le
 Pos = $(PWD)/boot/${Ver}
 # if this can not be executed in your device then install the chezscheme and change S into 'scheme'
-S = ${Pos}/scheme -b ${Pos}/petite.boot -b ${Pos}/scheme.boot
+S = ${Pos}/chez-scheme -b ${Pos}/petite.boot -b ${Pos}/chez-scheme.boot
 
 defalut: scripts/boot.ss clean-exec init
 	@bash scripts/boot.sh $S $< -q  # makeing boot file -> boot/rcis.boot

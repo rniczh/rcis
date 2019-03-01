@@ -33,7 +33,7 @@
         (with-output-to-file (assembly-mode)
           thunk
           'replace))
-    (unless (and (system (format "gcc -std=c11 -Wall -D_GNU_SOURCE ~{~a ~} -O~a -o ~a ~a.s ~a ~a"
+    (unless (and (system (format "gcc -std=c11 -fPIC -Wall -D_GNU_SOURCE ~{~a ~} -O~a -o ~a ~a.s ~a ~a"
                            (scheme-debug)
                            (gcc-optimize-level)
                            (output-file)
